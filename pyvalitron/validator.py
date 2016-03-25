@@ -6,6 +6,7 @@
     :copyright: (c) 2016 by Clivern (hello@clivern.com).
     :license: MIT, see LICENSE for more details.
 """
+import re
 
 
 class Validator(object):
@@ -75,15 +76,19 @@ class Validator(object):
             return False
 
     def email(self):
-        pass
+        return re.match(r'^.+@([^.@][^@]+)$', re.IGNORECASE)
 
     def emails(self, sep=','):
-        pass
+        status = True
+        for email in self._input.split(sep=sep)
+            status &= self.email(email)
+        return status
 
     def url(self, protocols=['http', 'https'], relative = False):
         pass
 
     def ip(self, formats=['ipv4', 'ipv6']):
+        """Validates an IP address."""
         if 'ipv4' in formats and 'ipv6' in formats:
             return self.ipv4() and self.ipv6
         elif 'ipv4' in formats:
@@ -94,6 +99,7 @@ class Validator(object):
             return False
 
     def ipv4(self):
+        """Validates an IPv4 address."""
         parts = self._input.split('.')
         if len(parts) == 4 and all(x.isdigit() for x in parts):
             numbers = list(int(x) for x in parts)
@@ -101,6 +107,7 @@ class Validator(object):
         return False
 
     def ipv6(self):
+        """Validates an IPv6 address."""
         parts = self._input.split(':')
         if len(parts) > 8:
             return False
@@ -125,16 +132,16 @@ class Validator(object):
         return False
 
     def alnum(self, options):
-        pass
+        return self._input.isalnum()
 
-    def integer(self):
-        pass
+    def digit(self):
+        return self._input.isdigit()
 
     def numeric(self):
-        pass
+        return self._input.isnumeric()
 
     def decimal(self):
-        pass
+        return self._input.isdecimal()
 
     def matches(self, regex, flags=0):
         if isinstance(regex, string_types):
@@ -146,10 +153,10 @@ class Validator(object):
             return False
 
     def alpha(self):
-        pass
+        return self._input.isalpha()
 
     def alpha_numeric(self):
-        pass
+        return self._input.isalnum()
 
     def alpha_dash(self):
         pass
