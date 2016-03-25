@@ -24,63 +24,63 @@ class Validator(object):
 
     def length_between(self, from_length, to_length):
         """Validate if input length is between provided length limits"""
-        if int(to_length) > len(self._input) > int(from_length):
+        if to_length > len(self._input) > from_length:
             return True
         else:
             return False
 
     def min_length(self, min_length):
         """Validate if input length is greater that provided length"""
-        if len(self._input) >= int(min_length):
+        if len(self._input) >= min_length:
             return True
         else:
             return False
 
     def max_length(self, max_length):
         """Validate if input length is less that provided length"""
-        if len(self._input) <= int(max_length):
+        if len(self._input) <= max_length:
             return True
         else:
             return False
 
     def exact_length(self, exact_length):
         """Validate if input length is equal to provided one"""
-        if len(self._input) == int(exact_length):
+        if len(self._input) == exact_length:
             return True
         else:
             return False
 
     def greater_than(self, number):
         """Validate if input is greater than provided one"""
-        if int(self._input) > int(number):
+        if self._input > number:
             return True
         else:
             return False
 
     def greater_than_equal(self, number):
         """Validate if input is greater than or equal provided one"""
-        if int(self._input) >= int(number):
+        if self._input >= number:
             return True
         else:
             return False
 
     def less_than(self, number):
         """Validate if input is less than provided one"""
-        if int(self._input) < int(number):
+        if self._input < number:
             return True
         else:
             return False
 
     def less_than_equal(self, number):
         """Validate if input is less than or equal provided one"""
-        if int(self._input) <= int(number):
+        if self._input <= number:
             return True
         else:
             return False
 
     def equal(self, number):
         """Validate if input is equal to provided one"""
-        if int(self._input) == int(number):
+        if self._input == number:
             return True
         else:
             return False
@@ -91,6 +91,44 @@ class Validator(object):
             return True
         else:
             return False
+
+    def enum(self, options):
+        """Validate if input in a list"""
+        return self._input in options
+
+    def alpha(self):
+        """Validate if input is alph"""
+        if not isinstance(self._input, (str)):
+            return False
+        return self._input.isalpha()
+
+    def alpha_numeric(self):
+        """Validate if input is alpha numeric"""
+        if not isinstance(self._input, (str)):
+            return False
+        return self._input.isalnum()
+
+    def digit(self):
+        """Validate if input is digits"""
+        if not isinstance(self._input, (str)):
+            return False
+        return self._input.isdigit()
+
+    #def integer(self):
+    #    if not isinstance(self._input, (float)):
+    #        return False
+    #    return self._input.is_integer()
+
+    #def numeric(self):
+    #    if not isinstance(self._input, (unicode)):
+    #        return False
+    #    return self._input.isnumeric()
+
+    #def decimal(self):
+    #    if not isinstance(self._input, (unicode)):
+    #        return False
+    #    return self._input.isdecimal()
+
 
     def email(self):
         return re.match(r'^.+@([^.@][^@]+)$', re.IGNORECASE)
@@ -148,18 +186,6 @@ class Validator(object):
             return True
         return False
 
-    def alnum(self, options):
-        return self._input.isalnum()
-
-    def digit(self):
-        return self._input.isdigit()
-
-    def numeric(self):
-        return self._input.isnumeric()
-
-    def decimal(self):
-        return self._input.isdecimal()
-
     def matches(self, regex, flags=0):
         if isinstance(regex, string_types):
             regex = re.compile(regex, flags)
@@ -168,18 +194,6 @@ class Validator(object):
             return True
         else:
             return False
-
-    def alpha(self):
-        return self._input.isalpha()
-
-    def alpha_numeric(self):
-        return self._input.isalnum()
-
-    def alpha_dash(self):
-        pass
-
-    def base64(self):
-        pass
 
     def get_errors(self):
         """Get a list of errors"""
@@ -203,9 +217,9 @@ class Validator(object):
 
 if __name__ == '__main__':
     validator = Validator();
+
     validator.set_input(5)
     print(validator.required())
-
     print('-----------------------')
     validator.set_input(5)
     print(validator.greater_than(5))
@@ -214,11 +228,19 @@ if __name__ == '__main__':
     print(validator.less_than_equal(4))
     print(validator.equal(5))
     print('-----------------------')
-
     validator.set_input("Hello World")
     print(validator.length_between(2, 12))
     print(validator.min_length(1))
     print(validator.max_length(11))
     print(validator.exact_length(11))
     print(validator.same_as('Hello World'))
+    print('-----------------------')
+    validator.set_input('1')
+    print(validator.enum(['1']))
+    print('-----------------------')
+    validator.set_input('1')
+    print(validator.alpha())
+    print('-----------------------')
+    validator.set_input('sh')
+    print(validator.alpha_numeric())
     print('-----------------------')
