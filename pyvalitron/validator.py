@@ -46,31 +46,42 @@ class Validator(object):
             return False
 
     def greater_than(self, number):
+        """Validate if integer is greater than provided one"""
         if int(self._input) > int(number):
             return True
         else:
             return False
 
     def greater_than_equal(self, number):
+        """Validate if integer is greater than or equal provided one"""
         if int(self._input) >= int(number):
             return True
         else:
             return False
 
     def less_than(self, number):
+        """Validate if integer is less than provided one"""
         if int(self._input) < int(number):
             return True
         else:
             return False
 
     def less_than_equal(self, number):
+        """Validate if integer is less than or equal provided one"""
         if int(self._input) <= int(number):
             return True
         else:
             return False
 
     def equal(self, number):
+        """Validate if integer is equal to provided one"""
         if int(self._input) == int(number):
+            return True
+        else:
+            return False
+
+    def same_as(self, text):
+        if self._input == text:
             return True
         else:
             return False
@@ -80,7 +91,7 @@ class Validator(object):
 
     def emails(self, sep=','):
         status = True
-        for email in self._input.split(sep=sep)
+        for email in self._input.split(sep=sep):
             status &= self.email(email)
         return status
 
@@ -183,3 +194,13 @@ class Validator(object):
         else:
             self._errors[vrule] = error
         return True
+
+if __name__ == '__main__':
+    validator = Validator();
+    validator.set_input(5)
+
+    print(validator.greater_than(5))
+    print(validator.greater_than_equal(5))
+    print(validator.less_than(6))
+    print(validator.less_than_equal(4))
+    print(validator.equal(5))
