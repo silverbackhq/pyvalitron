@@ -131,15 +131,18 @@ class Validator(object):
 
 
     def email(self):
-        return re.match(r'^.+@([^.@][^@]+)$', re.IGNORECASE)
+        """Validate if input is a valid email address"""
+        return bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', self._input ,re.IGNORECASE))
 
     def emails(self, sep=','):
+        """Validate if input is a valid list of email addresses"""
         status = True
-        for email in self._input.split(sep=sep):
-            status &= self.email(email)
+        for email in self._input.split(sep):
+            status &= bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', email ,re.IGNORECASE))
         return status
 
     def url(self, protocols=['http', 'https'], relative = False):
+        """Validate if input is a valid URL"""
         pass
 
     def ip(self, formats=['ipv4']):
@@ -158,6 +161,7 @@ class Validator(object):
         return False
 
     def matches(self, regex, flags=0):
+        """Validate if input match the provided regexp"""
         if isinstance(regex, string_types):
             regex = re.compile(regex, flags)
 
@@ -231,3 +235,10 @@ if __name__ == '__main__':
     print(validator.ip())
     validator.set_input('2001:0db8:0000:85a3:0000:0000:ac1f:8001')
     print(validator.ip())
+
+
+    print('-----------------------')
+    validator.set_input('dd@ddd.comss')
+    print(validator.email())
+    validator.set_input('hello@clivern.com,szdv@dc.cccc.c')
+    print(validator.emails())
