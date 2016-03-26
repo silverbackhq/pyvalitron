@@ -6,7 +6,11 @@
     :copyright: (c) 2016 by Clivern (hello@clivern.com).
     :license: MIT, see LICENSE for more details.
 """
+from __future__ import unicode_literals
+
 import re
+import uuid
+import warnings
 
 
 class Validator(object):
@@ -92,9 +96,13 @@ class Validator(object):
         else:
             return False
 
-    def enum(self, options):
+    def any_of(self, options):
         """Validate if input in a list"""
         return self._input in options
+
+    def none_of(self, options):
+        """Validate if input not in a list"""
+        return not self._input in options
 
     def alpha(self):
         """Validate if input is alph"""
@@ -114,22 +122,6 @@ class Validator(object):
             return False
         return self._input.isdigit()
 
-    #def integer(self):
-    #    if not isinstance(self._input, (float)):
-    #        return False
-    #    return self._input.is_integer()
-
-    #def numeric(self):
-    #    if not isinstance(self._input, (unicode)):
-    #        return False
-    #    return self._input.isnumeric()
-
-    #def decimal(self):
-    #    if not isinstance(self._input, (unicode)):
-    #        return False
-    #    return self._input.isdecimal()
-
-
     def email(self):
         """Validate if input is a valid email address"""
         return bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', self._input ,re.IGNORECASE))
@@ -141,9 +133,17 @@ class Validator(object):
             status &= bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', email ,re.IGNORECASE))
         return status
 
-    def url(self, protocols=['http', 'https'], relative = False):
+    def url(self, protocols=['http', 'https']):
         """Validate if input is a valid URL"""
-        pass
+        regex = re.compile(
+            r'^(?:' + '|'.join(protocols) + ')://' # http:// or https://
+            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain...
+            r'localhost|' # localhost...
+            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|' # ...or ipv4
+            r'\[?[A-F0-9]*:[A-F0-9:]+\]?)' # ...or ipv6
+            r'(?::\d+)?' # optional port
+            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        return bool(regex.match(self._input))
 
     def ip(self, formats=['ipv4']):
         """Validates an IP address."""
@@ -160,15 +160,20 @@ class Validator(object):
             return all(num >= 0 and num < 256 for num in numbers)
         return False
 
+    def uuid(self):
+        """Validates if input is a UUID"""
+        try:
+            uuid.UUID(self._input)
+            return True
+        except:
+            return False
+
     def matches(self, regex, flags=0):
         """Validate if input match the provided regexp"""
         if isinstance(regex, string_types):
             regex = re.compile(regex, flags)
 
-        if regex.match(self._input):
-            return True
-        else:
-            return False
+        return bool(regex.match(self._input))
 
     def get_errors(self):
         """Get a list of errors"""
@@ -189,56 +194,3 @@ class Validator(object):
         else:
             self._errors[vrule] = error
         return True
-
-if __name__ == '__main__':
-    validator = Validator();
-
-    validator.set_input(5)
-    print(validator.required())
-    print('-----------------------')
-    validator.set_input(5)
-    print(validator.greater_than(5))
-    print(validator.greater_than_equal(5))
-    print(validator.less_than(6))
-    print(validator.less_than_equal(4))
-    print(validator.equal(5))
-    print('-----------------------')
-    validator.set_input("Hello World")
-    print(validator.length_between(2, 12))
-    print(validator.min_length(1))
-    print(validator.max_length(11))
-    print(validator.exact_length(11))
-    print(validator.same_as('Hello World'))
-    print('-----------------------')
-    validator.set_input('1')
-    print(validator.enum(['1']))
-    print('-----------------------')
-    validator.set_input('1')
-    print(validator.alpha())
-    print('-----------------------')
-    validator.set_input('sh')
-    print(validator.alpha_numeric())
-    print('-----------------------')
-    validator.set_input('0.0.0.0')
-    print(validator.ip())
-    validator.set_input('192.0168.1.1')
-    print(validator.ip())
-    validator.set_input('255.255.255.255')
-    print(validator.ip())
-    validator.set_input('0000:0000:0000:0000:0000:0000:0000:0000')
-    print(validator.ip())
-    validator.set_input('fe00::1')
-    print(validator.ip())
-    validator.set_input('fe80::217:f2ff:fe07:ed62')
-    print(validator.ip())
-    validator.set_input('ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff')
-    print(validator.ip())
-    validator.set_input('2001:0db8:0000:85a3:0000:0000:ac1f:8001')
-    print(validator.ip())
-
-
-    print('-----------------------')
-    validator.set_input('dd@ddd.comss')
-    print(validator.email())
-    validator.set_input('hello@clivern.com,szdv@dc.cccc.c')
-    print(validator.emails())
