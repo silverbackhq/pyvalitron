@@ -100,6 +100,15 @@ class Validator(object):
         """Validate if input in a list"""
         return self._input in options
 
+    def all_of(self, options):
+        """Validate if input is all of a list"""
+        if not len(options) == len(self._input):
+            return False
+        status = True
+        for item in self._input:
+            status &= item in options
+        return status
+
     def none_of(self, options):
         """Validate if input not in a list"""
         return not self._input in options
