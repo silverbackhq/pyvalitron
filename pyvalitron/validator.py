@@ -14,12 +14,19 @@ import warnings
 
 
 class Validator(object):
+    """Validate Inputs Module"""
 
+    # Input Value
     _input = None
+
+    # Errors Catched
     _errors = {}
+
+    # Required Flag
     _required = False
 
     def set_input(self, input_value):
+        """Set Input Value"""
         self._input = input_value
 
     def required(self):

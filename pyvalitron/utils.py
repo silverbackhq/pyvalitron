@@ -8,4 +8,5 @@
 """
 
 class Utils(object):
-	pass
+	"""Utils Module"""
+    pass
