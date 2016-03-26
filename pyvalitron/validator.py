@@ -142,14 +142,10 @@ class Validator(object):
     def url(self, protocols=['http', 'https'], relative = False):
         pass
 
-    def ip(self, formats=['ipv4', 'ipv6']):
+    def ip(self, formats=['ipv4']):
         """Validates an IP address."""
-        if 'ipv4' in formats and 'ipv6' in formats:
-            return self.ipv4() and self.ipv6
-        elif 'ipv4' in formats:
+        if 'ipv4' in formats:
             return self.ipv4()
-        elif 'ipv6' in formats:
-            return self.ipv6()
         else:
             return False
 
@@ -159,31 +155,6 @@ class Validator(object):
         if len(parts) == 4 and all(x.isdigit() for x in parts):
             numbers = list(int(x) for x in parts)
             return all(num >= 0 and num < 256 for num in numbers)
-        return False
-
-    def ipv6(self):
-        """Validates an IPv6 address."""
-        parts = self._input.split(':')
-        if len(parts) > 8:
-            return False
-
-        num_blank = 0
-        for part in parts:
-            if not part:
-                num_blank += 1
-            else:
-                try:
-                    value = int(part, 16)
-                except ValueError:
-                    return False
-                else:
-                    if value < 0 or value >= 65536:
-                        return False
-
-        if num_blank < 2:
-            return True
-        elif num_blank == 2 and not parts[0] and not parts[1]:
-            return True
         return False
 
     def matches(self, regex, flags=0):
@@ -244,3 +215,19 @@ if __name__ == '__main__':
     validator.set_input('sh')
     print(validator.alpha_numeric())
     print('-----------------------')
+    validator.set_input('0.0.0.0')
+    print(validator.ip())
+    validator.set_input('192.0168.1.1')
+    print(validator.ip())
+    validator.set_input('255.255.255.255')
+    print(validator.ip())
+    validator.set_input('0000:0000:0000:0000:0000:0000:0000:0000')
+    print(validator.ip())
+    validator.set_input('fe00::1')
+    print(validator.ip())
+    validator.set_input('fe80::217:f2ff:fe07:ed62')
+    print(validator.ip())
+    validator.set_input('ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff')
+    print(validator.ip())
+    validator.set_input('2001:0db8:0000:85a3:0000:0000:ac1f:8001')
+    print(validator.ip())
