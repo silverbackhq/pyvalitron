@@ -13,17 +13,17 @@ from .utils import Utils
 from .exceptions import PyValitronError
 
 
-{
-    'input' : {
-        'validate': {
-            'required': [],
-            'length_between': [5, 3]
-        }
-        'sanitize':{
+# {
+#     'input' : {
+#         'validate': {
+#             'required': [],
+#             'length_between': [5, 3]
+#         }
+#         'sanitize':{
 
-        }
-    }
-}
+#         }
+#     }
+# }
 
 
 class Form(object):
@@ -56,6 +56,15 @@ class Form(object):
     def validate(self):
         for current_input, validation_rule in self._inputs.iteritems():
             self._validator.set_input(self._form.getfirst(current_input, ''))
+            status = True
+            for rule_name, rule_args in validation_rule['validate'].iteritems()
+                *args, error = rule_args
+                current_status = getattr(self._validator, rule_name)(*args)
+                status &= current_status
+                if not current_status:
+                    self._errors[current_input] = error
+
+            return status
 
     def sanitize(self):
         pass
