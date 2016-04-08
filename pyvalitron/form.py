@@ -16,8 +16,11 @@ from .exceptions import PyValitronError
 # {
 #     'input' : {
 #         'validate': {
-#             'required': [],
-#             'length_between': [5, 3]
+#             'required': {},
+#             'length_between': {
+#                    'param' : [],
+#                    'error': 'Please lenght must be between '
+#                }
 #         }
 #         'sanitize':{
 
@@ -33,11 +36,14 @@ class Form(object):
     _errors = {}
     _sinputs = {}
 
+    _status = False
+
     _validator = None
     _sanitizer = None
     _utils = None
 
     def __init__(self, inputs):
+        """Init Form Module"""
         self._form = cgi.FieldStorage()
         self._inputs = inputs
         self._validator = Validator()
@@ -45,26 +51,37 @@ class Form(object):
         self._utils = Utils()
 
     def get_inputs(self):
+        """Get Original Inputs Values"""
         return self._inputs
 
     def get_sinputs(self):
+        """Get Sanitized Inputs Values"""
         return self._sinputs
 
     def get_errors(self):
+        """Get All Errors"""
         return self._errors
 
+    def get_status(self):
+        """Get Overall Status"""
+        return self._status
+
     def validate(self):
+        """Validate, Set Errors and Return Overall Status"""
         for current_input, validation_rule in self._inputs.iteritems():
-            self._validator.set_input(self._form.getfirst(current_input, ''))
+            self._inputs[current_input]['value'] = self._form.getfirst(current_input, '')
+            self._validator.set_input(self._inputs[current_input]['value'])
             status = True
             for rule_name, rule_args in validation_rule['validate'].iteritems()
-                *args, error = rule_args
-                current_status = getattr(self._validator, rule_name)(*args)
+                current_status = getattr(self._validator, rule_name)(*rule_args['param'])
+                self._inputs[current_input]['status'] = current_status
                 status &= current_status
                 if not current_status:
-                    self._errors[current_input] = error
+                    self._errors[current_input] = rule_args['error']
 
+            self._status = status
             return status
 
     def sanitize(self):
+        """Sanitize Inputs and Store Them"""
         pass
