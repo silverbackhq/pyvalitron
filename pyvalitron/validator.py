@@ -19,17 +19,15 @@ class Validator(object):
     # Input Value
     _input = None
 
-    # Errors Catched
-    _errors = {}
-
-    # Required Flag
-    _required = False
-
     def set_input(self, input_value):
         """Set Input Value"""
         self._input = input_value
 
-    def required(self):
+    def empty(self):
+        """Validate if input has empty value"""
+        return self._input == ''
+
+    def not_empty(self):
         """Validate if input has no empty value"""
         return not self._input == ''
 
@@ -190,23 +188,3 @@ class Validator(object):
             regex = re.compile(regex, flags)
 
         return bool(regex.match(self._input))
-
-    def get_errors(self):
-        """Get a list of errors"""
-        return self._errors
-
-    def errors_exist(self):
-        """Check if errors exist"""
-        return True if len(self._errors) > 0 else False
-
-    def clear_errors(self):
-        """Clear all catched errors"""
-        self._errors = {}
-
-    def _set_error(self, vrule, error):
-        """Set catched error"""
-        if vrule == '' or error == '':
-            return False
-        else:
-            self._errors[vrule] = error
-        return True
