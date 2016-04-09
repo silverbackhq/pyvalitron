@@ -53,6 +53,7 @@ class Form(object):
         self._validator = Validator()
         self._sanitizer = Sanitizer()
         self._utils = Utils()
+        return self
 
     def get_inputs(self):
         """Get Original Inputs Values"""
@@ -70,7 +71,19 @@ class Form(object):
         """Get Overall Sanitization Status"""
         return self._sstatus
 
-    def validate(self):
+    def process(self):
+        self._validate()
+        self._sanitize()
+
+    def add_validator(self, val_instance):
+        """Add custom validator"""
+        self._validators = val_instance
+
+    def add_sanitizer(self, san_instance):
+        """Add custom sanitizer"""
+        self._sanitizers = san_instance
+
+    def _validate(self):
         """Validate, Set Errors and Return Overall Status"""
         for current_input, validation_rule in self._inputs.iteritems():
             # Push input value to validator
@@ -82,7 +95,7 @@ class Form(object):
             status = True
             if 'validate' in validation_rule:
                 for rule_name, rule_args in validation_rule['validate'].iteritems():
-                    self.update_validator(rule_name)
+                    self._update_validator(rule_name)
                     current_status = getattr(self._validator, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['status'] = current_status
                     status &= current_status
@@ -93,7 +106,7 @@ class Form(object):
             self._vstatus = status
             return status
 
-    def sanitize(self):
+    def _sanitize(self):
         """Sanitize Inputs and Store Them"""
         for current_input, sanitization_rule in self._inputs.iteritems():
 
@@ -106,7 +119,7 @@ class Form(object):
             status = True
             if 'sanitize' in sanitization_rule:
                 for rule_name, rule_args in sanitization_rule['sanitize'].iteritems():
-                    self.update_sanitizer(rule_name)
+                    self._update_sanitizer(rule_name)
                     sanitized_value = getattr(self._sanitizer, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['svalue'] = sanitized_value
                     self._inputs[current_input]['is_exact'] = True if self._inputs[current_input]['value'] == sanitized_value else False
@@ -116,15 +129,7 @@ class Form(object):
             self._sstatus = status
             return status
 
-    def add_validator(self, val_instance):
-        """Add custom validator"""
-        self._validators = val_instance
-
-    def add_sanitizer(self, san_instance):
-        """Add custom sanitizer"""
-        self._sanitizers = san_instance
-
-    def update_validator(self, rule_name):
+    def _update_validator(self, rule_name):
         """Update current validator"""
         for validator in self._validators:
             if hasattr(validator, rule_name):
@@ -132,7 +137,7 @@ class Form(object):
                 return True
         raise PyValitronError('Non existent validation rule %s' % rule_name)
 
-    def update_sanitizer(self, rule_name):
+    def _update_sanitizer(self, rule_name):
         """Update current sanitizer"""
         for sanitizer in self._sanitizers:
             if hasattr(sanitizer, rule_name):

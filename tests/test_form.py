@@ -12,7 +12,22 @@ import unittest
 
 
 class TestFormMethods(unittest.TestCase):
-    pass
+
+    def test_form(self):
+        form = Form({
+            'user_email': {
+                'validate': {
+                    'not_empty': {
+                        'param': [],
+                        'error': 'User email must be provided'
+                    },
+                    'email': {
+                        'param': [],
+                        'error': 'User email is invalid'
+                    }
+                }
+            }
+        }, 'values').process()
 
 if __name__ == '__main__':
     unittest.main()
