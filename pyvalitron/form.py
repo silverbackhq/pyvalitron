@@ -82,6 +82,7 @@ class Form(object):
             status = True
             if 'validate' in validation_rule:
                 for rule_name, rule_args in validation_rule['validate'].iteritems():
+                    self.update_validator(rule_name)
                     current_status = getattr(self._validator, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['status'] = current_status
                     status &= current_status
@@ -95,6 +96,7 @@ class Form(object):
     def sanitize(self):
         """Sanitize Inputs and Store Them"""
         for current_input, sanitization_rule in self._inputs.iteritems():
+
             # Push input value to sanitizer
             if self._type == 'form':
                 self._inputs[current_input]['value'] = self._form.getfirst(current_input, '')
@@ -104,6 +106,7 @@ class Form(object):
             status = True
             if 'sanitize' in sanitization_rule:
                 for rule_name, rule_args in sanitization_rule['sanitize'].iteritems():
+                    self.update_sanitizer(rule_name)
                     sanitized_value = getattr(self._sanitizer, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['svalue'] = sanitized_value
                     self._inputs[current_input]['is_exact'] = True if self._inputs[current_input]['value'] == sanitized_value else False
@@ -113,3 +116,26 @@ class Form(object):
             self._sstatus = status
             return status
 
+    def add_validator(self, val_instance):
+        """Add custom validator"""
+        self._validators = val_instance
+
+    def add_sanitizer(self, san_instance):
+        """Add custom sanitizer"""
+        self._sanitizers = san_instance
+
+    def update_validator(self, rule_name):
+        """Update current validator"""
+        for validator in self._validators:
+            if hasattr(validator, rule_name):
+                self._validator = validator
+                return True
+        raise PyValitronError('Non existent validation rule %s' % rule_name)
+
+    def update_sanitizer(self, rule_name):
+        """Update current sanitizer"""
+        for sanitizer in self._sanitizers:
+            if hasattr(sanitizer, rule_name):
+                self._sanitizer = sanitizer
+                return True
+        raise PyValitronError('Non existent sanitization rule %s' % rule_name)

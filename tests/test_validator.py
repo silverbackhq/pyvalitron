@@ -9,6 +9,13 @@
 from __future__ import print_function
 from pyvalitron.validator import Validator
 import unittest
+import re
+
+class ValidatorExtension(Validator):
+
+    def email_ext(self):
+        """Validate if input is a valid email address"""
+        return bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', self._input ,re.IGNORECASE))
 
 
 class TestValidatorMethods(unittest.TestCase):
