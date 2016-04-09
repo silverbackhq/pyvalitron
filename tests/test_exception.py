@@ -16,7 +16,7 @@ class TestExceptionMethods(unittest.TestCase):
     def test_error(self):
         try:
             raise PyValitronError('Error raised with %s' % 'dynamic data')
-        except Exception, e:
+        except Exception as e:
             self.assertEqual(e.error_info, 'Error raised with dynamic data')
 
 
