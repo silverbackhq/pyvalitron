@@ -16,6 +16,7 @@ class TestFormMethods(unittest.TestCase):
     def test_form(self):
         form = Form({
             'user_email': {
+                'value': '',
                 'validate': {
                     'not_empty': {
                         'param': [],
@@ -27,7 +28,12 @@ class TestFormMethods(unittest.TestCase):
                     }
                 }
             }
-        }, 'values').process()
+        }, 'values')
+        form.process()
+        errors = form.get_errors()
+        self.assertEqual(2, len(errors['user_email']))
+        self.assertEqual('User email must be provided', errors['user_email'][0])
+        self.assertEqual('User email is invalid', errors['user_email'][1])
 
 if __name__ == '__main__':
     unittest.main()

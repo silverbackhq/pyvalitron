@@ -42,6 +42,8 @@ class Form(object):
 
     _validator = None
     _sanitizer = None
+    _sanitizers = []
+    _validators = []
     _utils = None
 
     def __init__(self, inputs, inputs_type='form'):
@@ -53,7 +55,6 @@ class Form(object):
         self._validator = Validator()
         self._sanitizer = Sanitizer()
         self._utils = Utils()
-        return self
 
     def get_inputs(self):
         """Get Original Inputs Values"""
@@ -94,13 +95,14 @@ class Form(object):
             # Validate current input value
             status = True
             if 'validate' in validation_rule:
+                self._errors[current_input] = []
                 for rule_name, rule_args in validation_rule['validate'].iteritems():
                     self._update_validator(rule_name)
                     current_status = getattr(self._validator, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['status'] = current_status
                     status &= current_status
                     if not current_status:
-                        self._errors[current_input] = rule_args['error']
+                        self._errors[current_input].append(rule_args['error'])
 
             # Set and return Overall status
             self._vstatus = status
@@ -131,6 +133,8 @@ class Form(object):
 
     def _update_validator(self, rule_name):
         """Update current validator"""
+        if hasattr(self._validator, rule_name):
+            return True
         for validator in self._validators:
             if hasattr(validator, rule_name):
                 self._validator = validator
@@ -139,6 +143,8 @@ class Form(object):
 
     def _update_sanitizer(self, rule_name):
         """Update current sanitizer"""
+        if hasattr(self._sanitizer, rule_name):
+            return True
         for sanitizer in self._sanitizers:
             if hasattr(sanitizer, rule_name):
                 self._sanitizer = sanitizer
