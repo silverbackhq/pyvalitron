@@ -119,7 +119,7 @@ class Validator(object):
         return not self._input in options
 
     def alpha(self):
-        """Validate if input is alph"""
+        """Validate if input is alpha"""
         if not isinstance(self._input, (str)):
             return False
         return self._input.isalpha()
