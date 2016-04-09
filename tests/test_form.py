@@ -32,8 +32,8 @@ class TestFormMethods(unittest.TestCase):
         form.process()
         errors = form.get_errors()
         self.assertEqual(2, len(errors['user_email']))
-        self.assertEqual('User email must be provided', errors['user_email'][0])
-        self.assertEqual('User email is invalid', errors['user_email'][1])
+        self.assertEqual(True, 'User email must be provided' in errors['user_email'])
+        self.assertEqual(True, 'User email is invalid' in errors['user_email'])
 
 if __name__ == '__main__':
     unittest.main()
