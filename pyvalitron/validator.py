@@ -184,7 +184,7 @@ class Validator(object):
 
     def matches(self, regex, flags=0):
         """Validate if input match the provided regexp"""
-        if isinstance(regex, string_types):
+        if isinstance(regex, (str)):
             regex = re.compile(regex, flags)
 
         return bool(regex.match(self._input))

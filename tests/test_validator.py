@@ -69,5 +69,8 @@ class TestValidatorMethods(unittest.TestCase):
         validator.set_input('192.168.0.1')
         self.assertEqual(True, validator.ipv4())
 
+        validator.set_input('hello@clivern.com')
+        self.assertEqual(True, validator.matches(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$'))
+
 if __name__ == '__main__':
     unittest.main()
