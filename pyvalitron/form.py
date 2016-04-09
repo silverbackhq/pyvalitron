@@ -81,7 +81,7 @@ class Form(object):
             # Validate current input value
             status = True
             if 'validate' in validation_rule:
-                for rule_name, rule_args in validation_rule['validate'].iteritems()
+                for rule_name, rule_args in validation_rule['validate'].iteritems():
                     current_status = getattr(self._validator, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['status'] = current_status
                     status &= current_status
@@ -103,7 +103,7 @@ class Form(object):
             # Sanitize current input value
             status = True
             if 'sanitize' in sanitization_rule:
-                for rule_name, rule_args in sanitization_rule['sanitize'].iteritems()
+                for rule_name, rule_args in sanitization_rule['sanitize'].iteritems():
                     sanitized_value = getattr(self._sanitizer, rule_name)(*rule_args['param'])
                     self._inputs[current_input]['svalue'] = sanitized_value
                     self._inputs[current_input]['is_exact'] = True if self._inputs[current_input]['value'] == sanitized_value else False
