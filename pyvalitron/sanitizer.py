@@ -7,6 +7,7 @@
     :license: MIT, see LICENSE for more details.
 """
 
+
 class Sanitizer(object):
     """Sanitize Inputs Module"""
 
