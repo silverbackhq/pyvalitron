@@ -62,22 +62,22 @@ class Form(object):
 
     def add_validator(self, val_instance):
         """Add custom validator"""
-        self._validators = val_instance
+        self._validators.append(val_instance)
 
     def add_sanitizer(self, san_instance):
         """Add custom sanitizer"""
-        self._sanitizers = san_instance
+        self._sanitizers.append(san_instance)
 
     def _validate(self):
         """Validate, Set Errors and Return Overall Status"""
+        # Validate current inputs value
+        status = True
         for current_input, validation_rule in self._inputs.items():
             # Push input value to validator
             if self._type == 'form':
                 self._inputs[current_input]['value'] = self._form.getfirst(current_input, '')
             self._validator.set_input(self._inputs[current_input]['value'])
 
-            # Validate current input value
-            status = True
             if 'validate' in validation_rule:
                 self._errors[current_input] = []
                 for rule_name, rule_args in validation_rule['validate'].items():
@@ -88,12 +88,14 @@ class Form(object):
                     if not current_status:
                         self._errors[current_input].append(rule_args['error'])
 
-            # Set and return Overall status
-            self._vstatus = status
-            return status
+        # Set and return Overall status
+        self._vstatus = status
+        return status
 
     def _sanitize(self):
         """Sanitize Inputs and Store Them"""
+        # Sanitize current input value
+        status = True
         for current_input, sanitization_rule in self._inputs.items():
 
             # Push input value to sanitizer
@@ -101,8 +103,6 @@ class Form(object):
                 self._inputs[current_input]['value'] = self._form.getfirst(current_input, '')
             self._sanitizer.set_input(self._inputs[current_input]['value'])
 
-            # Sanitize current input value
-            status = True
             if 'sanitize' in sanitization_rule:
                 for rule_name, rule_args in sanitization_rule['sanitize'].items():
                     self._update_sanitizer(rule_name)
@@ -111,9 +111,9 @@ class Form(object):
                     self._inputs[current_input]['is_exact'] = True if self._inputs[current_input]['value'] == sanitized_value else False
                     status &= self._inputs[current_input]['is_exact']
 
-            # Set and return Overall status
-            self._sstatus = status
-            return status
+        # Set and return Overall status
+        self._sstatus = status
+        return status
 
     def _update_validator(self, rule_name):
         """Update current validator"""

@@ -19,8 +19,6 @@ class Validator(object):
     # Input Value
     _input = None
 
-    _extensions = []
-
     def set_input(self, input_value):
         """Set Input Value"""
         self._input = input_value
@@ -190,6 +188,3 @@ class Validator(object):
             regex = re.compile(regex, flags)
 
         return bool(regex.match(self._input))
-
-    def add_extension(self, extension_instance):
-        self._extensions = extension_instance
