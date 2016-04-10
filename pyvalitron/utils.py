@@ -7,6 +7,7 @@
     :license: MIT, see LICENSE for more details.
 """
 
+
 class Utils(object):
-	"""Utils Module"""
+    """Utils Module"""
     pass

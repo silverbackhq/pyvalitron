@@ -19,17 +19,17 @@ class Validator(object):
     # Input Value
     _input = None
 
-    # Errors Catched
-    _errors = {}
-
-    # Required Flag
-    _required = False
+    _extensions = []
 
     def set_input(self, input_value):
         """Set Input Value"""
         self._input = input_value
 
-    def required(self):
+    def empty(self):
+        """Validate if input has empty value"""
+        return self._input == ''
+
+    def not_empty(self):
         """Validate if input has no empty value"""
         return not self._input == ''
 
@@ -118,7 +118,7 @@ class Validator(object):
 
     def none_of(self, options):
         """Validate if input not in a list"""
-        return not self._input in options
+        return self._input not in options
 
     def alpha(self):
         """Validate if input is alpha"""
@@ -140,24 +140,24 @@ class Validator(object):
 
     def email(self):
         """Validate if input is a valid email address"""
-        return bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', self._input ,re.IGNORECASE))
+        return bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', self._input, re.IGNORECASE))
 
     def emails(self, sep=','):
         """Validate if input is a valid list of email addresses"""
         status = True
         for email in self._input.split(sep):
-            status &= bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', email ,re.IGNORECASE))
+            status &= bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', email, re.IGNORECASE))
         return status
 
     def url(self, protocols=['http', 'https']):
         """Validate if input is a valid URL"""
         regex = re.compile(
-            r'^(?:' + '|'.join(protocols) + ')://' # http:// or https://
-            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain...
-            r'localhost|' # localhost...
-            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|' # ...or ipv4
-            r'\[?[A-F0-9]*:[A-F0-9:]+\]?)' # ...or ipv6
-            r'(?::\d+)?' # optional port
+            r'^(?:' + '|'.join(protocols) + ')://'  # http:// or https://
+            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+            r'localhost|'  # localhost...
+            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # ...or ipv4
+            r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
+            r'(?::\d+)?'  # optional port
             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
         return bool(regex.match(self._input))
 
@@ -186,27 +186,10 @@ class Validator(object):
 
     def matches(self, regex, flags=0):
         """Validate if input match the provided regexp"""
-        if isinstance(regex, string_types):
+        if isinstance(regex, (str)):
             regex = re.compile(regex, flags)
 
         return bool(regex.match(self._input))
 
-    def get_errors(self):
-        """Get a list of errors"""
-        return self._errors
-
-    def errors_exist(self):
-        """Check if errors exist"""
-        return True if len(self._errors) > 0 else False
-
-    def clear_errors(self):
-        """Clear all catched errors"""
-        self._errors = {}
-
-    def _set_error(self, vrule, error):
-        """Set catched error"""
-        if vrule == '' or error == '':
-            return False
-        else:
-            self._errors[vrule] = error
-        return True
+    def add_extension(self, extension_instance):
+        self._extensions = extension_instance

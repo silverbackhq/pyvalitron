@@ -6,13 +6,13 @@
     :copyright: (c) 2016 by Clivern (hello@clivern.com).
     :license: MIT, see LICENSE for more details.
 """
+from __future__ import print_function
+from pyvalitron.sanitizer import Sanitizer
+import unittest
 
 
-__version__ = "1.0.0"
+class TestSanitizerMethods(unittest.TestCase):
+    pass
 
-
-def read_file(file_path):
-    content = ""
-    with open(file_path) as f:
-        content = f.read()
-    return content
+if __name__ == '__main__':
+    unittest.main()
