@@ -13,22 +13,6 @@ from .utils import Utils
 from .exceptions import PyValitronError
 
 
-# {
-#     'input' : {
-#         'validate': {
-#             'required': {},
-#             'length_between': {
-#                    'param' : [],
-#                    'error': 'Please lenght must be between '
-#                }
-#         }
-#         'sanitize':{
-
-#         }
-#     }
-# }
-
-
 class Form(object):
 
     _type = 'form'
