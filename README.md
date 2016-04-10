@@ -22,17 +22,17 @@ Usage
 -----
 After installing the library, Read the following usage criteria:
 
-### Using Validator for Froms
+### Using Validator
+The typical usage of form validator is like the following:
+```
 
+```
 
-### Using Sanitizer for Forms
+### Using Sanitizer
+The typical usage of form sanitizer is like the following:
+```
 
-
-### Using Validator for Values
-
-
-### Using Sanitizer for Values
-
+```
 
 ### Custom Validators
 
@@ -63,6 +63,6 @@ Initial Release.
 Acknowledgements
 ----------------
 
-© 2015, Clivern. Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+© 2016, Clivern. Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
 **PyLogging** is authored and maintained by [@clivern](http://github.com/clivern).
