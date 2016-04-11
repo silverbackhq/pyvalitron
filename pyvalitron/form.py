@@ -82,10 +82,14 @@ class Form(object):
                 self._errors[current_input] = []
                 for rule_name, rule_args in validation_rule['validate'].items():
                     self._update_validator(rule_name)
-                    current_status = getattr(self._validator, rule_name)(*rule_args['param'])
+                    # Check if param exist and pass them to the method
+                    if 'param' in rule_args.keys() and rule_args['param'] > 0:
+                        current_status = getattr(self._validator, rule_name)(*rule_args['param'])
+                    else:
+                        current_status = getattr(self._validator, rule_name)()
                     self._inputs[current_input]['status'] = current_status
                     status &= current_status
-                    if not current_status:
+                    if not current_status and 'error' in rule_args.keys():
                         self._errors[current_input].append(rule_args['error'])
 
         # Set and return Overall status
@@ -106,7 +110,11 @@ class Form(object):
             if 'sanitize' in sanitization_rule:
                 for rule_name, rule_args in sanitization_rule['sanitize'].items():
                     self._update_sanitizer(rule_name)
-                    sanitized_value = getattr(self._sanitizer, rule_name)(*rule_args['param'])
+                    # Check if param provided and pass them to the method
+                    if 'param' in rule_args.keys() and len(rule_args['param']) > 0:
+                        sanitized_value = getattr(self._sanitizer, rule_name)(*rule_args['param'])
+                    else:
+                        sanitized_value = getattr(self._sanitizer, rule_name)()
                     self._inputs[current_input]['svalue'] = sanitized_value
                     self._inputs[current_input]['is_exact'] = True if self._inputs[current_input]['value'] == sanitized_value else False
                     status &= self._inputs[current_input]['is_exact']

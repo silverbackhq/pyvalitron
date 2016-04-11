@@ -31,11 +31,9 @@ class TestFormMethods(unittest.TestCase):
                 'value': '',
                 'validate': {
                     'not_empty': {
-                        'param': [],
                         'error': 'User email must be provided'
                     },
                     'email': {
-                        'param': [],
                         'error': 'User email is invalid'
                     }
                 }
@@ -47,26 +45,39 @@ class TestFormMethods(unittest.TestCase):
         self.assertEqual(True, 'User email must be provided' in errors['user_email'])
         self.assertEqual(True, 'User email is invalid' in errors['user_email'])
 
-    def test_custom_validator(self):
+    def test_form_validation_with_param(self):
         form = Form({
-            'user_email': {
-                'value': '',
+            'test_field1': {
+                'value': 'Hello World',
                 'validate': {
-                    'not_empty': {
-                        'param': [],
-                        'error': 'User email must be provided'
-                    },
-                    'email': {
-                        'param': [],
-                        'error': 'User email is invalid'
+                    'length_between':{
+                        'param': [1, 12],
+                        'error': 'Input lenght must be between 1 and 12 characters'
                     }
                 }
             },
+            'test_field2': {
+                'value': 'Hello World',
+                'validate': {
+                    'length_between':{
+                        'param': [1, 9],
+                        'error': 'Input lenght must be between 1 and 12 characters'
+                    }
+                }
+            }
+        }, 'values')
+        form.process()
+        errors = form.get_errors()
+        self.assertEqual(0, len(errors['test_field1']))
+        self.assertEqual(1, len(errors['test_field2']))
+        self.assertEqual(True, 'Input lenght must be between 1 and 12 characters' in errors['test_field2'])
+
+    def test_custom_validator(self):
+        form = Form({
             'user_name': {
                 'value': '',
                 'validate': {
                     'username':{
-                        'param': [],
                         'error': 'Invalid Username'
                     }
                 }
