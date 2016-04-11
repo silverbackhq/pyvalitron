@@ -73,7 +73,35 @@ The typical usage of form sanitizer is like the following:
 
 To define a new validator:
 ```
+class MyValidator(Validator):
 
+    def username(self):
+        if not isinstance(self._input, (str)):
+            return False
+        current_input = self._input.strip()
+        if len(current_input) > 5 and current_input.isalpha():
+            return True
+        return False
+
+    def otherrule(self):
+        return True
+
+    #...and so one
+
+form = Form()
+form.add_validator(MyValidator())
+form.add_inputs({
+    'user_name': {
+        'value': '',
+        'validate': {
+            'username': {
+                'error': 'Invalid Username'
+            }
+        }
+    }
+})
+form.process()
+errors = form.get_errors()
 ```
 
 ### Custom Sanitizers

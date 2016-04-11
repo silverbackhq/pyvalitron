@@ -30,15 +30,17 @@ class Form(object):
     _validators = []
     _utils = None
 
-    def __init__(self, inputs, inputs_type='form'):
+    def __init__(self, inputs = {}, inputs_type='form'):
         """Init Form Module"""
         self._type = inputs_type
-        if self._type == 'form':
-            self._form = cgi.FieldStorage()
         self._inputs = inputs
         self._validator = Validator()
         self._sanitizer = Sanitizer()
         self._utils = Utils()
+
+    def add_inputs(self, inputs = {}):
+        """Set inputs"""
+        self._inputs = inputs
 
     def get_inputs(self):
         """Get Original Inputs Values"""
@@ -57,6 +59,8 @@ class Form(object):
         return self._sstatus
 
     def process(self):
+        if self._type == 'form':
+            self._form = cgi.FieldStorage()
         self._validate()
         self._sanitize()
 
