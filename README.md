@@ -73,6 +73,10 @@ The typical usage of form sanitizer is like the following:
 
 To define a new validator:
 ```
+from pyvalitron.validator import Validator
+from pyvalitron.form import Form
+
+
 class MyValidator(Validator):
 
     def username(self):
@@ -87,6 +91,7 @@ class MyValidator(Validator):
         return True
 
     #...and so one
+
 
 form = Form()
 form.add_validator(MyValidator())
