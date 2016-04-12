@@ -26,6 +26,7 @@ After installing the library, Read the following usage criteria:
 #### Validators List:
 
 Here is a list of all available validators:
+
 * `empty`: Validate if input or a value is empty.
 * `not_empty`: Validate if input or a value is not empty.
 * `length_between`: Validate if input or a value length is between provided lengths. It requires two parameters `[from_length, to_length]` like `[1, 13]`.
@@ -56,6 +57,7 @@ Here is a list of all available validators:
 #### Sanitizers List
 
 Here is a list of all available sanitizers:
+
 * `strip`: Strip the input value. It accepts one parameter `[[chars]]` like `[[',', '.', '\s']]`.
 * `lstrip`: Left strip the input value. It accepts one parameter `[[chars]]` like `[[',', '.', '\s']]`.
 * `rstrip`: Right strip the input value. It accepts one parameter `[[chars]]` like `[[',', '.', '\s']]`.
