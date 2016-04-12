@@ -106,7 +106,42 @@ errors = form.get_errors()
 
 To define a new sanitizer:
 ```
+from __future__ import print_function
+from pyvalitron.sanitizer import Sanitizer
+from pyvalitron.form import Form
 
+class MySanitizer(Sanitizer):
+
+    def clear_spaces(self):
+        if not isinstance(self._input, (str)):
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
+
+        self._sinput = self._sinput.replace(" ", "")
+        return self._sinput
+
+    def lower_case(self):
+        if not isinstance(self._input, (str)):
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
+        self._sinput = self._sinput.lower()
+        return self._sinput
+
+form = Form({
+    'test_field': {
+        'value': 'Hello World',
+        'sanitize': {
+            'clear_spaces':{},
+            'lower_case': {}
+        }
+    }
+}, 'values')
+form.add_sanitizer(MySanitizer())
+form.process()
+inputs = form.get_inputs()
+print(inputs['test_field']['svalue']) #helloworld
 ```
 
 Misc
