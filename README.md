@@ -99,7 +99,7 @@ form.add_inputs({
     }
 })
 form.process()
-errors = form.get_errors()
+errors = form.get_errors() #{'user_name': ['Invalid Username']}
 ```
 
 ### Custom Sanitizers
