@@ -21,6 +21,10 @@ class Sanitizer(object):
         """Set Input Value"""
         self._input = input_value
 
+    def set_sinput(self, sinput_value):
+        """Set Sanitized Input Value"""
+        self._sinput = sinput_value
+
     def get_sinput(self):
         """Get sanitized input value"""
         return self._sinput
@@ -36,38 +40,44 @@ class Sanitizer(object):
     def strip(self, chars = ''):
         """Strip input value"""
         if not isinstance(self._input, (str)):
-            self._input = str(self._input)
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
 
         if len(chars) > 0:
-            self._input = self._input.strip(chars)
+            self._sinput = self._sinput.strip(chars)
         else:
-            self._input = self._input.strip()
+            self._sinput = self._sinput.strip()
 
-        return self._input
+        return self._sinput
 
     def lstrip(self, chars = ''):
         """Left strip input value"""
         if not isinstance(self._input, (str)):
-            self._input = str(self._input)
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
 
         if len(chars) > 0:
-            self._input = self._input.lstrip(chars)
+            self._sinput = self._sinput.lstrip(chars)
         else:
-            self._input = self._input.lstrip()
+            self._sinput = self._sinput.lstrip()
 
-        return self._input
+        return self._sinput
 
     def rstrip(self, chars = ''):
         """Right strip input value"""
         if not isinstance(self._input, (str)):
-            self._input = str(self._input)
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
 
         if len(chars) > 0:
-            self._input = self._input.rstrip(chars)
+            self._sinput = self._sinput.rstrip(chars)
         else:
-            self._input = self._input.rstrip()
+            self._sinput = self._sinput.rstrip()
 
-        return self._input
+        return self._sinput
 
     def escape(self, chars=['&', '"', '\'', '>', '<']):
         """Escape input value"""
@@ -80,7 +90,9 @@ class Sanitizer(object):
         }
 
         if not isinstance(self._input, (str)):
-            self._input = str(self._input)
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
 
-        self._input = "".join(html_escape_table.get(c,c) for c in self._input)
-        return self._input
+        self._sinput = "".join(html_escape_table.get(c,c) for c in self._sinput)
+        return self._sinput

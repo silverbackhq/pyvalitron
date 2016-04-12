@@ -8,6 +8,7 @@
 """
 from __future__ import print_function
 from pyvalitron.validator import Validator
+from pyvalitron.sanitizer import Sanitizer
 from pyvalitron.form import Form
 import unittest
 
@@ -21,6 +22,27 @@ class MyValidator(Validator):
         if len(current_input) > 5 and current_input.isalpha():
             return True
         return False
+
+
+class MySanitizer(Sanitizer):
+
+    def clear_spaces(self):
+        if not isinstance(self._input, (str)):
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
+
+        self._sinput = self._sinput.replace(" ", "")
+        return self._sinput
+
+    def lower_case(self):
+        if not isinstance(self._input, (str)):
+            self._sinput = str(self._input)
+        else:
+            self._sinput = self._input
+
+        self._sinput = self._sinput.lower()
+        return self._sinput
 
 
 class TestFormMethods(unittest.TestCase):
@@ -88,6 +110,22 @@ class TestFormMethods(unittest.TestCase):
         errors = form.get_errors()
         self.assertEqual(1, len(errors['user_name']))
         self.assertEqual(True, 'Invalid Username' in errors['user_name'])
+
+    def test_custom_sanitizer(self):
+        form = Form({
+            'test_field': {
+                'value': 'Hello World',
+                'sanitize': {
+                    'clear_spaces':{},
+                    'lower_case': {}
+                }
+            }
+        }, 'values')
+        form.add_sanitizer(MySanitizer())
+        form.process()
+        inputs = form.get_inputs()
+        self.assertEqual('HelloWorld', inputs['test_field']['svalue'])
+
 
 if __name__ == '__main__':
     unittest.main()
