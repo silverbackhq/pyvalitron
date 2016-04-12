@@ -40,7 +40,6 @@ class MySanitizer(Sanitizer):
             self._sinput = str(self._input)
         else:
             self._sinput = self._input
-
         self._sinput = self._sinput.lower()
         return self._sinput
 
@@ -124,7 +123,7 @@ class TestFormMethods(unittest.TestCase):
         form.add_sanitizer(MySanitizer())
         form.process()
         inputs = form.get_inputs()
-        self.assertEqual('HelloWorld', inputs['test_field']['svalue'])
+        self.assertEqual('helloworld', inputs['test_field']['svalue'])
 
 
 if __name__ == '__main__':
