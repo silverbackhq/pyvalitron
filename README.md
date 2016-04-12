@@ -65,9 +65,6 @@ The typical usage of form sanitizer is like the following:
 
 #### Sanitizers List
 
-*
-*
-*
 
 ### Custom Validators
 
