@@ -22,14 +22,10 @@ Usage
 -----
 After installing the library, Read the following usage criteria:
 
-### Using Validator
-The typical usage of form validator is like the following:
-```
-
-```
 
 #### Validators List:
 
+Here is a list of all available validators:
 * `empty`: Validate if input or a value is empty.
 * `not_empty`: Validate if input or a value is not empty.
 * `length_between`: Validate if input or a value length is between provided lengths. It requires two parameters `[from_length, to_length]` like `[1, 13]`.
@@ -57,13 +53,13 @@ The typical usage of form validator is like the following:
 * `matches`: Validate if input or a value matches provided regex. It requires one parameter `[regex]` like `[r'^[_a-z0-9-]+$']`.
 
 
-### Using Sanitizer
-The typical usage of form sanitizer is like the following:
-```
-
-```
-
 #### Sanitizers List
+
+Here is a list of all available sanitizers:
+* `strip`: Strip the input value. It accepts one parameter `[[chars]]` like `[[',', '.', '\s']]`.
+* `lstrip`: Left strip the input value. It accepts one parameter `[[chars]]` like `[[',', '.', '\s']]`.
+* `rstrip`: Right strip the input value. It accepts one parameter `[[chars]]` like `[[',', '.', '\s']]`.
+* `escape`: Escape the input value to prevent evil scripts. It accepts one parameter (a list of chars to escape). currently it support these characters `['&', '"', '\'', '>', '<']`.
 
 
 ### Custom Validators
