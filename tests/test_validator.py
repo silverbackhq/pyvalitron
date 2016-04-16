@@ -14,7 +14,7 @@ import unittest
 class TestValidatorMethods(unittest.TestCase):
 
     def test_validator(self):
-        validator = Validator();
+        validator = Validator()
 
         validator.set_input('')
         self.assertEqual(True, validator.empty())

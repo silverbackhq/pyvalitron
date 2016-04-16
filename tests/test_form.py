@@ -71,7 +71,7 @@ class TestFormMethods(unittest.TestCase):
             'test_field1': {
                 'value': 'Hello World',
                 'validate': {
-                    'length_between':{
+                    'length_between': {
                         'param': [1, 12],
                         'error': 'Input lenght must be between 1 and 12 characters'
                     }
@@ -80,7 +80,7 @@ class TestFormMethods(unittest.TestCase):
             'test_field2': {
                 'value': 'Hello World',
                 'validate': {
-                    'length_between':{
+                    'length_between': {
                         'param': [1, 9],
                         'error': 'Input lenght must be between 1 and 12 characters'
                     }
@@ -98,7 +98,7 @@ class TestFormMethods(unittest.TestCase):
             'user_name': {
                 'value': '',
                 'validate': {
-                    'username':{
+                    'username': {
                         'error': 'Invalid Username'
                     }
                 }
@@ -115,7 +115,7 @@ class TestFormMethods(unittest.TestCase):
             'test_field': {
                 'value': 'Hello World',
                 'sanitize': {
-                    'clear_spaces':{},
+                    'clear_spaces': {},
                     'lower_case': {}
                 }
             }

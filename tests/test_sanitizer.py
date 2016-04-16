@@ -14,7 +14,7 @@ import unittest
 class TestSanitizerMethods(unittest.TestCase):
 
     def test_sanitizer(self):
-        sanitizer = Sanitizer();
+        sanitizer = Sanitizer()
 
         text = '  Hello World.  '
         sanitizer.set_input(text)

@@ -37,7 +37,7 @@ class Sanitizer(object):
         """Check if original and sanitized value are the same"""
         return self._input == self._sinput and len(self._input) == len(self._sinput)
 
-    def strip(self, chars = ''):
+    def strip(self, chars=''):
         """Strip input value"""
         if not isinstance(self._input, (str)):
             self._sinput = str(self._input)
@@ -51,7 +51,7 @@ class Sanitizer(object):
 
         return self._sinput
 
-    def lstrip(self, chars = ''):
+    def lstrip(self, chars=''):
         """Left strip input value"""
         if not isinstance(self._input, (str)):
             self._sinput = str(self._input)
@@ -65,7 +65,7 @@ class Sanitizer(object):
 
         return self._sinput
 
-    def rstrip(self, chars = ''):
+    def rstrip(self, chars=''):
         """Right strip input value"""
         if not isinstance(self._input, (str)):
             self._sinput = str(self._input)
@@ -94,5 +94,5 @@ class Sanitizer(object):
         else:
             self._sinput = self._input
 
-        self._sinput = "".join(html_escape_table.get(c,c) for c in self._sinput)
+        self._sinput = "".join(html_escape_table.get(c, c) for c in self._sinput)
         return self._sinput

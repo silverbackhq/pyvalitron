@@ -30,7 +30,7 @@ class Form(object):
     _validators = []
     _utils = None
 
-    def __init__(self, inputs = {}, inputs_type='form'):
+    def __init__(self, inputs={}, inputs_type='form'):
         """Init Form Module"""
         self._type = inputs_type
         self._inputs = inputs
@@ -38,7 +38,7 @@ class Form(object):
         self._sanitizer = Sanitizer()
         self._utils = Utils()
 
-    def add_inputs(self, inputs = {}):
+    def add_inputs(self, inputs={}):
         """Set inputs"""
         self._inputs = inputs
 
@@ -150,7 +150,7 @@ class Form(object):
     def _update_sanitizer(self, rule_name):
         """Update current sanitizer"""
         if hasattr(self._sanitizer, rule_name):
-            if self._sanitizer.get_sinput() == None:
+            if self._sanitizer.get_sinput() is None:
                 self._sanitizer.set_input(self._sanitizer.get_input())
                 self._sanitizer.set_sinput(None)
             else:
@@ -158,7 +158,7 @@ class Form(object):
             return True
         for sanitizer in self._sanitizers:
             if hasattr(sanitizer, rule_name):
-                if self._sanitizer.get_sinput() == None:
+                if self._sanitizer.get_sinput() is None:
                     sanitizer.set_input(self._sanitizer.get_input())
                     sanitizer.set_sinput(None)
                 else:
