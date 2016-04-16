@@ -58,11 +58,20 @@ class Form(object):
         """Get Overall Sanitization Status"""
         return self._sstatus
 
-    def process(self):
+    def process(self, direction=['sanitize', 'validate']):
+        """Process both validation and sanitization"""
         if self._type == 'form':
             self._form = cgi.FieldStorage()
-        self._validate()
-        self._sanitize()
+        if direction[0] == 'sanitize':
+            if 'sanitize' in direction:
+                self._sanitize()
+            if 'validate' in direction:
+                self._validate()
+        else:
+            if 'validate' in direction:
+                self._validate()
+            if 'sanitize' in direction:
+                self._sanitize()
 
     def add_validator(self, val_instance):
         """Add custom validator"""
