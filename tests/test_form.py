@@ -10,7 +10,14 @@ from __future__ import print_function
 from pyvalitron.validator import Validator
 from pyvalitron.sanitizer import Sanitizer
 from pyvalitron.form import Form
+from flask import Flask
 import unittest
+
+
+app = Flask(__name__)
+@app.route("/")
+def hello():
+    return "Hello World!"
 
 
 class MyValidator(Validator):
@@ -124,6 +131,14 @@ class TestFormMethods(unittest.TestCase):
         form.process()
         inputs = form.get_inputs()
         self.assertEqual('helloworld', inputs['test_field']['svalue'])
+
+    def test_web_client(self):
+        self.app = app.test_client()
+        self.app.testing = True
+        result = self.app.get('/')
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.data, "Hello World!")
 
 
 if __name__ == '__main__':
