@@ -5,8 +5,9 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-install: python setup.py install
-install: pip install flask
+install:
+  - python setup.py install
+  - pip install flask
 script:
 - python tests/test_exception.py
 - python tests/test_form.py
