@@ -23,6 +23,43 @@ Usage
 After installing the library, Read the following usage criteria:
 
 
+#### Validate Form Inputs:
+To validate a list of form inputs:
+```
+
+```
+
+#### Sanitize Form Inputs:
+To sanitize a list of form inputs:
+```
+
+```
+
+#### Validate & Sanitize Form Inputs:
+To validate and sanitize a list of form inputs:
+```
+
+```
+
+#### Validate Values:
+To validate a list of values:
+```
+
+```
+
+#### Sanitize Values:
+To sanitize a list of values:
+```
+
+```
+
+#### Validate & Sanitize Values:
+To validate and sanitize a list of values:
+```
+
+```
+
+
 #### Validators List:
 
 Here is a list of all available validators:
@@ -64,7 +101,7 @@ Here is a list of all available sanitizers:
 * `escape`: Escape the input value to prevent evil scripts. It accepts one parameter (a list of chars to escape). currently it support these characters `['&', '"', '\'', '>', '<']`.
 
 
-### Custom Validators
+#### Custom Validators
 
 To define a new validator:
 ```
@@ -104,7 +141,7 @@ form.process()
 errors = form.get_errors() #{'user_name': ['Invalid Username']}
 ```
 
-### Custom Sanitizers
+#### Custom Sanitizers
 
 To define a new sanitizer:
 ```
@@ -147,18 +184,16 @@ print(inputs['test_field']['svalue']) #helloworld
 ```
 
 Misc
-====
+----
 
-Changelog
----------
+#### Changelog
 
 Version 1.0.0 (coming soon):
 ```
 Initial Release.
 ```
 
-Acknowledgements
-----------------
+#### Acknowledgements
 
 © 2016, Clivern. Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
