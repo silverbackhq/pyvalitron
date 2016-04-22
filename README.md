@@ -22,40 +22,6 @@ Usage
 -----
 After installing the library, Read the following usage criteria:
 
-
-#### Validate Form Inputs:
-To validate a list of form inputs:
-```
-from pyvalitron.form import Form
-
-
-form = Form({})
-form.process()
-errors = form.get_errors()
-```
-
-#### Sanitize Form Inputs:
-To sanitize a list of form inputs:
-```
-from pyvalitron.form import Form
-
-
-form = Form({})
-form.process()
-errors = form.get_errors()
-```
-
-#### Validate & Sanitize Form Inputs:
-To validate and sanitize a list of form inputs:
-```
-from pyvalitron.form import Form
-
-
-form = Form({})
-form.process()
-errors = form.get_errors()
-```
-
 #### Validate Values:
 To validate a list of values:
 ```
@@ -88,6 +54,48 @@ form.process()
 errors = form.get_errors()
 ```
 
+#### Using With Frameworks:
+Flask Framework
+```
+from flask import Flask
+from flask import request
+from pyvalitron.form import Form
+
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    form = Form({
+        'test_field1': {
+            'value': request.args.get('test_field1'),
+            'validate': {
+                'length_between': {
+                    'param': [1, 12],
+                    'error': 'Input lenght must be between 1 and 12 characters'
+                }
+            }
+        },
+        'test_field2': {
+            'value': request.args.get('test_field2'),
+            'validate': {
+                'length_between': {
+                    'param': [1, 9],
+                    'error': 'Input lenght must be between 1 and 12 characters'
+                }
+            }
+        }
+    }, 'values')
+    form.process()
+    errors = form.get_errors()
+    if 'Input lenght must be between 1 and 12 characters' in errors['test_field2']:
+        return 'error'
+    else:
+        return 'success'
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
 
 #### Validators List:
 

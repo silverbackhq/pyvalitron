@@ -59,7 +59,7 @@ class TestFormMethods(unittest.TestCase):
                     }
                 }
             }
-        }, 'values')
+        })
         form.process()
         errors = form.get_errors()
         self.assertEqual(2, len(errors['user_email']))
@@ -86,7 +86,7 @@ class TestFormMethods(unittest.TestCase):
                     }
                 }
             }
-        }, 'values')
+        })
         form.process()
         errors = form.get_errors()
         self.assertEqual(0, len(errors['test_field1']))
@@ -103,7 +103,7 @@ class TestFormMethods(unittest.TestCase):
                     }
                 }
             }
-        }, 'values')
+        })
         form.add_validator(MyValidator())
         form.process()
         errors = form.get_errors()
@@ -119,7 +119,7 @@ class TestFormMethods(unittest.TestCase):
                     'lower_case': {}
                 }
             }
-        }, 'values')
+        })
         form.add_sanitizer(MySanitizer())
         form.process()
         inputs = form.get_inputs()

@@ -6,7 +6,6 @@
     :copyright: (c) 2016 by Clivern (hello@clivern.com).
     :license: MIT, see LICENSE for more details.
 """
-import cgi
 from .validator import Validator
 from .sanitizer import Sanitizer
 from .utils import Utils
@@ -15,8 +14,6 @@ from .exceptions import PyValitronError
 
 class Form(object):
 
-    _type = 'form'
-    _form = None
     _inputs = {}
     _errors = {}
     _sinputs = {}
@@ -30,9 +27,8 @@ class Form(object):
     _validators = []
     _utils = None
 
-    def __init__(self, inputs={}, inputs_type='form'):
+    def __init__(self, inputs={}):
         """Init Form Module"""
-        self._type = inputs_type
         self._inputs = inputs
         self._validator = Validator()
         self._sanitizer = Sanitizer()
@@ -60,8 +56,6 @@ class Form(object):
 
     def process(self, direction=['sanitize', 'validate']):
         """Process both validation and sanitization"""
-        if self._type == 'form':
-            self._form = cgi.FieldStorage()
         if direction[0] == 'sanitize':
             if 'sanitize' in direction:
                 self._sanitize()
@@ -89,8 +83,6 @@ class Form(object):
 
         for current_input, validation_rule in self._inputs.items():
             # Push input value to validator
-            if self._type == 'form':
-                self._inputs[current_input]['value'] = self._form.getfirst(current_input, '')
             self._validator.set_input(self._inputs[current_input]['value'])
             if 'validate' in validation_rule:
                 self._errors[current_input] = []
@@ -117,8 +109,6 @@ class Form(object):
         status = True
         for current_input, sanitization_rule in self._inputs.items():
             # Push input value to sanitizer
-            if self._type == 'form':
-                self._inputs[current_input]['value'] = self._form.getfirst(current_input, '')
             self._sanitizer.set_input(self._inputs[current_input]['value'])
             self._sanitizer.set_sinput(None)
             if 'sanitize' in sanitization_rule:
