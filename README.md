@@ -3,7 +3,7 @@ PyValitron
 
 PyValitron is a light-weight python inputs validation library.
 
-*Current version: [v1.0.0-dev]*
+*Current version: [v1.0.0]*
 
 [![Build Status](https://travis-ci.org/Clivern/PyValitron.svg?branch=master)](https://travis-ci.org/Clivern/PyValitron)
 
@@ -326,7 +326,7 @@ Misc
 
 #### Changelog
 
-Version 1.0.0 (coming soon):
+Version 1.0.0:
 ```
 Initial Release.
 ```

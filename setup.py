@@ -24,15 +24,15 @@ setup(
     packages=['pyvalitron'],
     long_description=read_file('README.md'),
     classifiers=[
-        'Classifier: Development Status :: 3 - Alpha',
-        'Classifier: License :: OSI Approved :: MIT License',
-        'Classifier: Programming Language :: Python :: 2.7',
-        'Classifier: Programming Language :: Python :: 3.0',
-        'Classifier: Programming Language :: Python :: 3.1',
-        'Classifier: Programming Language :: Python :: 3.2',
-        'Classifier: Programming Language :: Python :: 3.3',
-        'Classifier: Programming Language :: Python :: 3.4',
-        'Classifier: Programming Language :: Python :: 3.5',
-        'Classifier: Topic :: Utilities'
+        'Development Status :: 5 - Production/Stable',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.0',
+        'Programming Language :: Python :: 3.1',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Topic :: Utilities'
     ],
 )

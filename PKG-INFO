@@ -6,10 +6,10 @@ Author-email: support at clivern com
 Maintainer: Clivern
 Maintainer-email: support at clivern com
 Home-page: https://github.com/Clivern/PyValitron
-Download-url: https://github.com/Clivern/PyValitron/archive/master.zip
+Download-url: https://github.com/Clivern/PyValitron/archive/1.0.0.zip
 Summary: Python Inputs Validation Library
 Keywords: validation,forms,inputs
-Classifier: Development Status :: 3 - Alpha
+Classifier: Development Status :: 5 - Production/Stable
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 2.7
 Classifier: Programming Language :: Python :: 3.0
