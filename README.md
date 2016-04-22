@@ -27,33 +27,134 @@ To validate a list of values:
 ```
 from pyvalitron.form import Form
 
-form = Form({})
+form = Form({
+    'test_field1': {
+        'value': 'Hello World',
+        'validate': {
+            'length_between': {
+                'param': [1, 12],
+                'error': 'Input lenght must be between 1 and 12 characters'
+            }
+        }
+    },
+    'test_field2': {
+        'value': 'Hello World',
+        'validate': {
+            'length_between': {
+                'param': [1, 9],
+                'error': 'Input lenght must be between 1 and 12 characters'
+            }
+        }
+    }
+})
 form.process()
 errors = form.get_errors()
+print(errors['test_field2'])   # Input lenght must be between 1 and 12 characters
 ```
 
 #### Sanitize Values:
 To sanitize a list of values:
 ```
+from __future__ import print_function
 from pyvalitron.form import Form
 
 
-form = Form({})
+form = Form({
+    'test_field': {
+        'value': 'Hello& W"or"ld<br>.',
+        'sanitize': {
+            'escape': {}
+        }
+    }
+})
 form.process()
-errors = form.get_errors()
+inputs = form.get_inputs()
+print(inputs['test_field']) # {'is_exact': False, 'svalue': 'Hello&amp; W&quot;or&quot;ld&lt;br&gt;.', 'sanitize': {'escape': {}}, 'value': 'Hello& W"or"ld<br>.'}
+print(inputs['test_field']['is_exact']) # False
+print(inputs['test_field']['svalue']) # Hello&amp; W&quot;or&quot;ld&lt;br&gt;.
+print(inputs['test_field']['value']) # Hello& W"or"ld<br>.
+```
+```
+from __future__ import print_function
+from pyvalitron.form import Form
+
+
+form = Form({
+    'test_field': {
+        'value': 'Hello World.',
+        'sanitize': {
+            'escape': {}
+        }
+    }
+})
+form.process()
+inputs = form.get_inputs()
+print(inputs['test_field']) # {'is_exact': True, 'svalue': 'Hello World.', 'sanitize': {'escape': {}}, 'value': 'Hello World.'}
+print(inputs['test_field']['is_exact']) # True
+print(inputs['test_field']['svalue']) # Hello World.
+print(inputs['test_field']['value']) # Hello World.
 ```
 
 #### Validate & Sanitize Values:
 To validate and sanitize a list of values:
 ```
+from __future__ import print_function
 from pyvalitron.form import Form
 
 
-form = Form({})
+form = Form({
+    'test_field': {
+        'value': 'hello@clivern.com',
+        'sanitize': {
+            'escape': {}
+        },
+        'validate': {
+            'email': {
+                'error': 'Please provide a valid email.'
+            }
+        }
+    }
+})
 form.process()
+inputs = form.get_inputs()
 errors = form.get_errors()
+print(errors) # {'test_field': []}
+print(errors['test_field']) # []
+print(inputs['test_field']) # {'status': True, 'is_exact': True, 'value': 'hello@clivern.com', 'sanitize': {'escape': {}}, 'svalue': 'hello@clivern.com', 'validate': {'email': {'error': 'Please provide a valid email.'}}}
+print(inputs['test_field']['status']) # True
+print(inputs['test_field']['is_exact']) # True
+print(inputs['test_field']['value']) # hello@clivern.com
+print(inputs['test_field']['svalue']) # hello@clivern.com
 ```
+```
+from __future__ import print_function
+from pyvalitron.form import Form
 
+
+form = Form({
+    'test_field': {
+        'value': 'hello@cliv@ern.com',
+        'sanitize': {
+            'escape': {}
+        },
+        'validate': {
+            'email': {
+                'error': 'Please provide a valid email.'
+            }
+        }
+    }
+})
+form.process()
+inputs = form.get_inputs()
+errors = form.get_errors()
+print(errors) # {'test_field': ['Please provide a valid email.']}
+print(errors['test_field']) # ['Please provide a valid email.']
+print(inputs['test_field']) # {'status': False, 'is_exact': True, 'value': 'hello@cliv@ern.com', 'sanitize': {'escape': {}}, 'svalue': 'hello@cliv@ern.com', 'validate': {'email': {'error': 'Please provide a valid email.'}}}
+print(inputs['test_field']['status']) # False
+print(inputs['test_field']['is_exact']) # True
+print(inputs['test_field']['value']) # hello@cliv@ern.com
+print(inputs['test_field']['svalue']) # hello@cliv@ern.com
+```
 #### Using With Frameworks:
 Flask Framework
 ```

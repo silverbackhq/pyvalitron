@@ -125,6 +125,51 @@ class TestFormMethods(unittest.TestCase):
         inputs = form.get_inputs()
         self.assertEqual('helloworld', inputs['test_field']['svalue'])
 
+    def test_validation_sanitization(self):
+        form = Form({
+            'test_field': {
+                'value': 'hello@clivern.com',
+                'sanitize': {
+                    'escape': {}
+                },
+                'validate': {
+                    'email': {
+                        'error': 'Please provide a valid email.'
+                    }
+                }
+            }
+        })
+        form.process()
+        inputs = form.get_inputs()
+        errors = form.get_errors()
+        self.assertEqual([], errors['test_field'])
+        self.assertEqual(True, inputs['test_field']['status'])
+        self.assertEqual(True, inputs['test_field']['is_exact'])
+        self.assertEqual('hello@clivern.com', inputs['test_field']['value'])
+        self.assertEqual('hello@clivern.com', inputs['test_field']['svalue'])
+
+        form = Form({
+            'test_field': {
+                'value': 'hello@cliv@ern.com',
+                'sanitize': {
+                    'escape': {}
+                },
+                'validate': {
+                    'email': {
+                        'error': 'Please provide a valid email.'
+                    }
+                }
+            }
+        })
+        form.process()
+        inputs = form.get_inputs()
+        errors = form.get_errors()
+        self.assertEqual(['Please provide a valid email.'], errors['test_field'])
+        self.assertEqual(False, inputs['test_field']['status'])
+        self.assertEqual(True, inputs['test_field']['is_exact'])
+        self.assertEqual('hello@cliv@ern.com', inputs['test_field']['value'])
+        self.assertEqual('hello@cliv@ern.com', inputs['test_field']['svalue'])
+
 
 if __name__ == '__main__':
     unittest.main()
