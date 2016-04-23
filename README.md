@@ -9,7 +9,7 @@ PyValitron is a light-weight python inputs validation library.
 
 Installation
 ------------
-To install PyLogging run this command:
+To install PyValitron run this command:
 ```
 pip install pyvalitron
 ```
