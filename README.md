@@ -43,14 +43,14 @@ form = Form({
         'validate': {
             'length_between': {
                 'param': [1, 9],
-                'error': 'Input lenght must be between 1 and 12 characters'
+                'error': 'Input lenght must be between 1 and 9 characters'
             }
         }
     }
 })
 form.process()
 errors = form.get_errors()
-print(errors['test_field2'])   # Input lenght must be between 1 and 12 characters
+print(errors['test_field2'])   # Input lenght must be between 1 and 9 characters
 ```
 
 #### Sanitize Values:
