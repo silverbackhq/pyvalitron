@@ -183,14 +183,14 @@ def hello():
             'validate': {
                 'length_between': {
                     'param': [1, 9],
-                    'error': 'Input lenght must be between 1 and 12 characters'
+                    'error': 'Input lenght must be between 1 and 9 characters'
                 }
             }
         }
     }, 'values')
     form.process()
     errors = form.get_errors()
-    if 'Input lenght must be between 1 and 12 characters' in errors['test_field2']:
+    if 'Input lenght must be between 1 and 9 characters' in errors['test_field2']:
         return 'error'
     else:
         return 'success'
