@@ -82,7 +82,7 @@ class TestFormMethods(unittest.TestCase):
                 'validate': {
                     'length_between': {
                         'param': [1, 9],
-                        'error': 'Input lenght must be between 1 and 12 characters'
+                        'error': 'Input lenght must be between 1 and 9 characters'
                     }
                 }
             }
@@ -91,7 +91,7 @@ class TestFormMethods(unittest.TestCase):
         errors = form.get_errors()
         self.assertEqual(0, len(errors['test_field1']))
         self.assertEqual(1, len(errors['test_field2']))
-        self.assertEqual(True, 'Input lenght must be between 1 and 12 characters' in errors['test_field2'])
+        self.assertEqual(True, 'Input lenght must be between 1 and 9 characters' in errors['test_field2'])
 
     def test_custom_validator(self):
         form = Form({
