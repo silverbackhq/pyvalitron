@@ -4,7 +4,6 @@ Form
 
 from .validator import Validator
 from .sanitizer import Sanitizer
-from .utils import Utils
 from .exceptions import PyValitronError
 
 
@@ -21,14 +20,12 @@ class Form(object):
     _sanitizer = None
     _sanitizers = []
     _validators = []
-    _utils = None
 
     def __init__(self, inputs={}):
         """Init Form Module"""
         self._inputs = inputs
         self._validator = Validator()
         self._sanitizer = Sanitizer()
-        self._utils = Utils()
 
     def add_inputs(self, inputs={}):
         """Set inputs"""

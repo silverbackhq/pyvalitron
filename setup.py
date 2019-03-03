@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyvalitron",
-    version="1.1.1",
+    version="1.1.2",
     author="silverback",
     author_email="hello@clivern.com",
     description="A Python Inputs Validation Library.",

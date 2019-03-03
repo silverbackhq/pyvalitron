@@ -326,6 +326,11 @@ Misc
 
 Changelog
 ----------
+Version 1.1.2:
+```
+Fix import issues.
+```
+
 Version 1.1.1:
 ```
 New Validation Rules.
