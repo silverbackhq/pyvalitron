@@ -3,20 +3,14 @@ PyValitron
 
 PyValitron is a light-weight python inputs validation library.
 
-*Current version: [v1.0.0]*
-
-[![Build Status](https://travis-ci.org/Clivern/PyValitron.svg?branch=master)](https://travis-ci.org/Clivern/PyValitron)
+[![Build Status](https://travis-ci.org/silverbackhq/PyValitron.svg?branch=master)](https://travis-ci.org/silverbackhq/PyValitron)
 [![PyPI version](https://badge.fury.io/py/PyValitron.svg)](https://badge.fury.io/py/PyValitron)
 
 Installation
 ------------
 To install PyValitron run this command:
 ```
-pip install pyvalitron
-```
-or [download](https://github.com/Clivern/pyvalitron/archive/1.0.0.zip) Package then run this command:
-```
-pip install PyValitron-1.0.0.zip
+pip3 install pyvalitron
 ```
 
 Usage
@@ -24,8 +18,9 @@ Usage
 After installing the library, Read the following usage criteria:
 
 #### Validate Values:
+
 To validate a list of values:
-```
+```python
 from pyvalitron.form import Form
 
 form = Form({
@@ -54,8 +49,9 @@ print(errors['test_field2'])   # Input lenght must be between 1 and 9 characters
 ```
 
 #### Sanitize Values:
+
 To sanitize a list of values:
-```
+```python
 from __future__ import print_function
 from pyvalitron.form import Form
 
@@ -75,7 +71,7 @@ print(inputs['test_field']['is_exact']) # False
 print(inputs['test_field']['svalue']) # Hello&amp; W&quot;or&quot;ld&lt;br&gt;.
 print(inputs['test_field']['value']) # Hello& W"or"ld<br>.
 ```
-```
+```python
 from __future__ import print_function
 from pyvalitron.form import Form
 
@@ -97,8 +93,9 @@ print(inputs['test_field']['value']) # Hello World.
 ```
 
 #### Validate & Sanitize Values:
+
 To validate and sanitize a list of values:
-```
+```python
 from __future__ import print_function
 from pyvalitron.form import Form
 
@@ -127,7 +124,7 @@ print(inputs['test_field']['is_exact']) # True
 print(inputs['test_field']['value']) # hello@clivern.com
 print(inputs['test_field']['svalue']) # hello@clivern.com
 ```
-```
+```python
 from __future__ import print_function
 from pyvalitron.form import Form
 
@@ -156,9 +153,11 @@ print(inputs['test_field']['is_exact']) # True
 print(inputs['test_field']['value']) # hello@cliv@ern.com
 print(inputs['test_field']['svalue']) # hello@cliv@ern.com
 ```
+
 #### Using With Frameworks:
+
 Flask Framework
-```
+```python
 from flask import Flask
 from flask import request
 from pyvalitron.form import Form
@@ -243,7 +242,7 @@ Here is a list of all available sanitizers:
 #### Custom Validators
 
 To define a new validator:
-```
+```python
 from pyvalitron.validator import Validator
 from pyvalitron.form import Form
 
@@ -283,7 +282,7 @@ errors = form.get_errors() #{'user_name': ['Invalid Username']}
 #### Custom Sanitizers
 
 To define a new sanitizer:
-```
+```python
 from __future__ import print_function
 from pyvalitron.sanitizer import Sanitizer
 from pyvalitron.form import Form
@@ -323,17 +322,24 @@ print(inputs['test_field']['svalue']) #helloworld
 ```
 
 Misc
-----
+====
 
-#### Changelog
+Changelog
+----------
+Version 1.1.0:
+```
+New Validation Rules.
+Add python lint check.
+```
 
 Version 1.0.0:
 ```
 Initial Release.
 ```
 
-#### Acknowledgements
+Acknowledgements
+----------------
 
-© 2016, Clivern. Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+© 2019, Silverback. Released under [MIT License](https://opensource.org/licenses/mit-license.php).
 
-**PyLogging** is authored and maintained by [@clivern](http://github.com/clivern).
+**PyValitron** is authored and maintained by [@silverbackhq](http://github.com/silverbackhq).

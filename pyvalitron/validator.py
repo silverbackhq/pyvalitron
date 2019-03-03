@@ -1,16 +1,11 @@
-# -*- coding: utf-8 -*-
 """
-    PyValitron
-    ~~~~~~
-    Python Inputs Validation Library
-    :copyright: (c) 2016 by Clivern (hello@clivern.com).
-    :license: MIT, see LICENSE for more details.
+Validator
 """
+
 from __future__ import unicode_literals
 
 import re
 import uuid
-import warnings
 
 
 class Validator(object):
@@ -179,7 +174,7 @@ class Validator(object):
         try:
             uuid.UUID(self._input)
             return True
-        except:
+        except Exception:
             return False
 
     def matches(self, regex, flags=0):
