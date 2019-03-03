@@ -1,38 +1,29 @@
-# -*- coding: utf-8 -*-
-"""
-    PyValitron
-    ~~~~~~
-    Python Inputs Validation Library
-    :copyright: (c) 2016 by Clivern (hello@clivern.com).
-    :license: MIT, see LICENSE for more details.
-"""
+import setuptools
 
-from setuptools import setup
-from pyvalitron import __version__
-from pyvalitron import read_file
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-
-setup(
+setuptools.setup(
     name="pyvalitron",
-    version=__version__,
-    author="Clivern",
+    version="1.1.0",
+    author="silverback",
     author_email="hello@clivern.com",
-    description="Python Inputs Validation Library",
-    license="MIT",
-    keywords="validation,forms,inputs",
-    url="http://clivern.github.io/pyvalitron/",
-    packages=['pyvalitron'],
-    long_description=read_file('README.md'),
+    description="A Python Inputs Validation Library.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/silverbackhq/pyvalitron",
+    packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
+    install_requires=[],
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.0',
-        'Programming Language :: Python :: 3.1',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Topic :: Utilities'
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "Natural Language :: English",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy"
     ],
 )
