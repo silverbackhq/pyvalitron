@@ -18,6 +18,10 @@ class Validator(object):
         """Set Input Value"""
         self._input = input_value
 
+    def get_input(self):
+        """Get Input Value"""
+        return self._input
+
     def empty(self):
         """Validate if input has empty value"""
         return self._input == ''
@@ -133,13 +137,20 @@ class Validator(object):
 
     def email(self):
         """Validate if input is a valid email address"""
-        return bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', self._input, re.IGNORECASE))
+        return bool(re.match(
+            r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$',
+            self._input, re.IGNORECASE
+        ))
 
     def emails(self, sep=','):
         """Validate if input is a valid list of email addresses"""
         status = True
         for email in self._input.split(sep):
-            status &= bool(re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$', email, re.IGNORECASE))
+            status &= bool(re.match(
+                r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$',
+                email,
+                re.IGNORECASE
+            ))
         return status
 
     def url(self, protocols=['http', 'https']):

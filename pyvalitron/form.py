@@ -4,7 +4,6 @@ Form
 
 from .validator import Validator
 from .sanitizer import Sanitizer
-from .utils import Utils
 from .exceptions import PyValitronError
 
 
@@ -21,14 +20,12 @@ class Form(object):
     _sanitizer = None
     _sanitizers = []
     _validators = []
-    _utils = None
 
     def __init__(self, inputs={}):
         """Init Form Module"""
         self._inputs = inputs
         self._validator = Validator()
         self._sanitizer = Sanitizer()
-        self._utils = Utils()
 
     def add_inputs(self, inputs={}):
         """Set inputs"""
@@ -38,9 +35,25 @@ class Form(object):
         """Get Original Inputs Values"""
         return self._inputs
 
+    def get_input(self, input_key):
+        return self._inputs[input_key]["value"]
+
+    def get_sinput(self, input_key):
+        if "svalue" in self._inputs[input_key]:
+            return self._inputs[input_key]["svalue"]
+        else:
+            return self.get_input(input_key)
+
     def get_errors(self):
         """Get All Errors"""
         return self._errors
+
+    def is_passed(self):
+        """Check if all inputs are valid"""
+        for input in self._inputs:
+            if len(self._errors[input]) > 0:
+                return False
+        return True
 
     def get_vstatus(self):
         """Get Overall Sanitization Status"""
@@ -83,12 +96,17 @@ class Form(object):
             if 'validate' in validation_rule:
                 self._errors[current_input] = []
                 for rule_name, rule_args in validation_rule['validate'].items():
+                    getattr(self._validator, "set_input")(self._inputs[current_input]['value'])
                     self._update_validator(rule_name)
                     # Check if param exist and pass them to the method
                     if 'param' in rule_args.keys() and len(rule_args['param']) > 0:
                         current_status = getattr(self._validator, rule_name)(*rule_args['param'])
                     else:
                         current_status = getattr(self._validator, rule_name)()
+
+                    if "optional" in validation_rule['validate'] and self._inputs[current_input]['value'] == "":
+                        current_status = True
+
                     self._inputs[current_input]['status'] = current_status
                     status &= current_status
                     if not current_status and 'error' in rule_args.keys():
