@@ -93,8 +93,8 @@ class Form(object):
             if 'validate' in validation_rule:
                 self._errors[current_input] = []
                 for rule_name, rule_args in validation_rule['validate'].items():
-                    getattr(self._validator, "set_input")(self._inputs[current_input]['value'])
                     self._update_validator(rule_name)
+                    getattr(self._validator, "set_input")(self._inputs[current_input]['value'])
                     # Check if param exist and pass them to the method
                     if 'param' in rule_args.keys() and len(rule_args['param']) > 0:
                         current_status = getattr(self._validator, rule_name)(*rule_args['param'])

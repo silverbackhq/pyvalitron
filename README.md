@@ -326,6 +326,11 @@ Misc
 
 Changelog
 ----------
+Version 1.1.3:
+```
+Fix issue with validation extensions.
+```
+
 Version 1.1.2:
 ```
 Fix import issues.
