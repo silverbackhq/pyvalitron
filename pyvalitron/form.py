@@ -86,10 +86,7 @@ class Form(object):
 
     def _validate(self):
         """Validate, Set Errors and Return Overall Status"""
-
-        # Validate current inputs value
         status = True
-
         for current_input, validation_rule in self._inputs.items():
             # Push input value to validator
             self._validator.set_input(self._inputs[current_input]['value'])
@@ -118,8 +115,6 @@ class Form(object):
 
     def _sanitize(self):
         """Sanitize Inputs and Store Them"""
-
-        # Sanitize current input value
         status = True
         for current_input, sanitization_rule in self._inputs.items():
             # Push input value to sanitizer
