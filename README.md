@@ -5,6 +5,7 @@ PyValitron is a light-weight python inputs validation library.
 
 [![Build Status](https://travis-ci.org/silverbackhq/pyvalitron.svg?branch=master)](https://travis-ci.org/silverbackhq/pyvalitron)
 [![PyPI version](https://badge.fury.io/py/pyvalitron.svg)](https://badge.fury.io/py/pyvalitron)
+[![Coverage Status](https://coveralls.io/repos/github/silverbackhq/pyvalitron/badge.svg)](https://coveralls.io/github/silverbackhq/pyvalitron)
 
 Installation
 ------------
